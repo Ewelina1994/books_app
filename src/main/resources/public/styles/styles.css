@@ -1,0 +1,34 @@
+a[higlight]{
+    font-weight: bold;
+    text-decoration: underline;
+}
+.header{
+    padding: 0 var(--lumo-space-m);
+}
+
+.header h2.logo{
+    margin: auto;
+
+}
+.logout{
+    float: right;
+    margin-right: 30px;
+}
+
+/*list view*/
+.list-view .content{
+    display: flex;
+}
+
+.dashbord-view .contact-status{
+    font-size: 4em;
+    margin: 1em 0;
+}
+
+.book-count{
+    color: red;
+}
+
+.grid{
+    text-align: center;
+}
