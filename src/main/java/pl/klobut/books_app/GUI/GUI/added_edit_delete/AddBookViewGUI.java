@@ -8,6 +8,7 @@ import com.vaadin.flow.component.charts.model.Dial;
 import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.html.Label;
+import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.select.Select;
 import com.vaadin.flow.component.textfield.NumberField;
@@ -39,8 +40,7 @@ public class AddBookViewGUI extends VerticalLayout implements HasUrlParameter<Lo
     Select<Integer> points;
     TextArea opinion;
     Button saveBookView;
-
-
+    Dialog dialog = new Dialog();
     Long parameterOfBook;
 
     OpinionRepo opinionRepo;
@@ -81,7 +81,9 @@ public class AddBookViewGUI extends VerticalLayout implements HasUrlParameter<Lo
 
         opinion=new TextArea("Your opinion", "I think this book..");
 
-        saveBookView= new Button("Save Book", clickEvent-> saveBookViewMethod());
+        saveBookView= new Button("Save Book", VaadinIcon.SAFE.create(), clickEvent-> {showPopupWindow();
+        dialog.open();
+        });
         saveBookView.addThemeVariants(ButtonVariant.LUMO_SUCCESS);
         add(startReading, isFinishRead, youStoppedReading, points, opinion, saveBookView);
     }
@@ -100,21 +102,22 @@ public class AddBookViewGUI extends VerticalLayout implements HasUrlParameter<Lo
         showPopupWindow();
     }
     private void showPopupWindow() {
-        Dialog dialog = new Dialog();
-
-        Button ok = new Button("Ok", e->dialog.close());
-        ok.addClickShortcut(Key.ENTER);
-        dialog.addDialogCloseActionListener(e->{
+        dialog.open();
+        Button confirmButton = new Button("Confirm", event -> {
+            saveBookViewMethod();
+            dialog.close();
+        });
+        Button cancelButton = new Button("Cancel", event -> {
             dialog.close();
         });
         dialog.add(new Label("The book was added to database"));
-        dialog.add(new Button("Ok", e->dialog.close()));
+        dialog.add(confirmButton, cancelButton);
 
         dialog.setWidth("400px");
         dialog.setHeight("150px");
 
         add(dialog);
-        UI.getCurrent().navigate("all_books");
+        UI.getCurrent().navigate("");
 
     }
 }
