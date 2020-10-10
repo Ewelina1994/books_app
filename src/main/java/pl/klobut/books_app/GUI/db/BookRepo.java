@@ -7,6 +7,7 @@ import pl.klobut.books_app.GUI.DTO.BookDTO;
 import pl.klobut.books_app.GUI.entity.Book;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface BookRepo extends JpaRepository<Book, Long> {
@@ -14,7 +15,7 @@ public interface BookRepo extends JpaRepository<Book, Long> {
     @Query(value = "SELECT BOOK.ID as Id, BOOK.TITLE as Title, BOOK.ISBN As Isbn, BOOK.KATEGORIA as Category, Author .name as AuthorName, Author.surname as AuthorSurname\n" +
             "FROM Author\n" +
             "INNER JOIN Book\n" +
-            "ON Book.AUTOR_ID=Author.ID", nativeQuery = true)
+            "ON Book.author_id=Author.ID", nativeQuery = true)
     List<BookDTO> getAllBook();
 
     @Query(value = "SELECT Kategoria, count(*)\n" +
@@ -24,6 +25,11 @@ public interface BookRepo extends JpaRepository<Book, Long> {
 
     @Query(value = "select * from Book where id=?1", nativeQuery = true)
     Book findByIdMyImplementation(Long id);
+
+    @Query(value = "select * from Book where title=?1", nativeQuery = true)
+    Book findByTitle(String title);
+
+    Optional<Book> findById(Long id);
 //    @Query(value = "select id, title, isbn, kategoria\n" +
 //            "from book\n" +
 //            "where \n" +

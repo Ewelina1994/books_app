@@ -14,7 +14,10 @@ public interface AuthorRepo extends JpaRepository<Author, Long> {
     @Query(value = "SELECT AUTHOR.NAME as Author, COUNT(AUTHOR.NAME) as CategoryCount, BOOK.KATEGORIA as Kategoria\n" +
             "FROM AUTHOR\n" +
             " INNER JOIN BOOK\n" +
-            "ON AUTHOR.ID= BOOK.AUTOR_ID\n" +
+            "ON AUTHOR.ID= BOOK.AUTHOR_ID\n" +
             "GROUP BY BOOK.KATEGORIA, AUTHOR.NAME", nativeQuery = true)
     List<AuthorDTO>getCategoryCount();
+
+    @Query(value = "select * from AUTHOR where AUTHOR.SURNAME=?1", nativeQuery = true)
+    Author finBySurname(String surname);
 }

@@ -6,5 +6,7 @@ public enum Kategoria {
     SCIENCE_FICTION,
     HORRORY,
     DOKUMENTALNE,
-    ROMANTYCZNE
+    ROMANTYCZNE;
+
+
 }

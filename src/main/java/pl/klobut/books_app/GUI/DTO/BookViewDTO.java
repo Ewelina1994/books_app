@@ -7,11 +7,11 @@ public interface BookViewDTO {
 
     String getSTART_READING();
 
-    String getARE_YOU_FINISH_READING();
+    Boolean getARE_YOU_FINISH_READING();
 
-    String getYOU_STOPPED_READING();
+    Boolean getYOU_STOPPED_READING();
 
     String getDESCRIPTION();
 
-    String getPOINTS();
+    Integer getPOINTS();
 }

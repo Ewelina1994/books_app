@@ -32,3 +32,27 @@ a[higlight]{
 .grid{
     text-align: center;
 }
+.redComunikat{
+    color: red;
+}
+
+/*deleet modal*/
+.deleteButton{
+    float: right;
+    color: red;
+}
+
+/*grid */
+.with-hand{
+    cursor: pointer;
+    cursor: hand;
+}
+#vaadin-grid{
+    cursor: pointer;
+    cursor: hand;
+}
+
+.form{
+    width: 500px;
+}
+

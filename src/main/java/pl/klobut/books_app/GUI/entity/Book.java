@@ -1,5 +1,8 @@
 package pl.klobut.books_app.GUI.entity;
 
+import com.vaadin.flow.function.ValueProvider;
+import pl.klobut.books_app.GUI.DTO.BookDTO;
+
 import javax.persistence.*;
 
 @Entity
@@ -52,4 +55,6 @@ public class Book {
     public void setKategoria(Kategoria kategoria) {
         this.kategoria = kategoria;
     }
+
+
 }

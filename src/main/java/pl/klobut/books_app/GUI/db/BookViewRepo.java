@@ -2,9 +2,13 @@ package pl.klobut.books_app.GUI.db;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import pl.klobut.books_app.GUI.DTO.BookViewDTO;
+import pl.klobut.books_app.GUI.entity.Book;
 import pl.klobut.books_app.GUI.entity.BookView;
+
+import java.util.List;
 
 @Repository
 public interface BookViewRepo extends JpaRepository<BookView, Long> {
@@ -18,4 +22,6 @@ public interface BookViewRepo extends JpaRepository<BookView, Long> {
             "WHERE BOOK_VIEW.ID = ?1",
             nativeQuery = true)
     BookViewDTO getBookViewByBook(Long id);
+
+    BookView findByBookId(Long id);
 }

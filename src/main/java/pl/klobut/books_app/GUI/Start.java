@@ -30,11 +30,11 @@ public class Start {
         Book book2 = new Book("Bazar złych snów", "45456", Kategoria.HORRORY);
         Book book3 = new Book("Czarna bezgwiezdna noc", "wqewew", Kategoria.FANTASY);
 
-        Book book4 = new Book("365 dni", "fytyery", Kategoria.ROMANTYCZNE);
-        Book book5 = new Book("Ten dzień", "fhtgfghfg", Kategoria.ROMANTYCZNE);
-
         Author author = new Author("Stephen", "King");
         author.setBookSet(Stream.of(book, book2, book3).collect(Collectors.toSet()));
+
+        Book book4 = new Book("365 dni", "fytyery", Kategoria.ROMANTYCZNE);
+        Book book5 = new Book("Ten dzień", "fhtgfghfg", Kategoria.ROMANTYCZNE);
 
         Author author1 = new Author("Blanka", "Lipińska");
         author1.setBookSet(Stream.of(book4, book5).collect(Collectors.toSet()));
@@ -44,7 +44,6 @@ public class Start {
         bookRepo.save(book3);
         bookRepo.save(book4);
         bookRepo.save(book5);
-
         authorRepo.save(author);
         authorRepo.save(author1);
 

@@ -11,13 +11,17 @@ public class Author {
     private String name;
     private String surname;
 
-    @OneToMany
-    @JoinColumn(name = "autor_id")
+    @OneToMany(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
+    @JoinColumn(name = "author_id")
     private Set<Book> bookSet;
 
     public Author(String name, String surname) {
         this.name = name;
         this.surname = surname;
+    }
+
+    public Author() {
+
     }
 
     public Long getId() {

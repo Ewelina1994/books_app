@@ -1,5 +1,8 @@
 package pl.klobut.books_app.GUI.entity;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -11,6 +14,7 @@ public class BookView {
     @Id
     Long id;
     @ManyToOne
+    @OnDelete(action = OnDeleteAction.CASCADE)
     Book book;
     LocalDate startReading;
     Boolean isFinishRead;

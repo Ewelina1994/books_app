@@ -1,4 +1,4 @@
-package pl.klobut.books_app.GUI.GUI;
+package pl.klobut.books_app.GUI.GUI.added_edit_delete;
 
 import com.vaadin.flow.component.Key;
 import com.vaadin.flow.component.UI;
@@ -17,7 +17,7 @@ import com.vaadin.flow.data.validator.StringLengthValidator;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import org.springframework.beans.factory.annotation.Autowired;
-import pl.klobut.books_app.GUI.DTO.BookDTO;
+import pl.klobut.books_app.GUI.GUI.MainLayout;
 import pl.klobut.books_app.GUI.db.AuthorRepo;
 import pl.klobut.books_app.GUI.db.BookRepo;
 import pl.klobut.books_app.GUI.entity.Author;
@@ -25,11 +25,10 @@ import pl.klobut.books_app.GUI.entity.Book;
 import pl.klobut.books_app.GUI.entity.Kategoria;
 import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.html.Label;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
+
+import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @PageTitle("add new book")
 @Route(value = "addBook", layout = MainLayout.class)
@@ -51,37 +50,34 @@ public class AddBookGUI extends VerticalLayout {
 
     BookRepo bookRepo;
     AuthorRepo authorRepo;
+
     @Autowired
     public AddBookGUI(BookRepo bookRepo, AuthorRepo authorRepo) {
         this.bookRepo=bookRepo;
         this.authorRepo=authorRepo;
 
-        setDefaultHorizontalComponentAlignment(Alignment.CENTER);
         initializeComponents();
         addComponents();
 
     }
 
     private void addComponents() {
-        formLayout.addFormItem(title, "Title");
-        formLayout.addFormItem(ISBN, "ISBN");
-        formLayout.addFormItem(select, "Categoria");
-        formLayout.addFormItem(authorName, "Author name");
-        formLayout.addFormItem(authorSurname, "Author surname");
+        formLayout.add(title, authorName, select, authorSurname, ISBN);
         HorizontalLayout horizontalLayout= new HorizontalLayout();
         horizontalLayout.add(cancel, saveBook);
         add(formLayout, horizontalLayout, validationInfoLabel);
     }
 
     public void initializeComponents() {
+        setDefaultHorizontalComponentAlignment(Alignment.CENTER);
         formLayout =new FormLayout();
         title=new TextField("Title book", "title");
         ISBN=new TextField("ISBN book", "ISBN");
 
         select = new Select<>();
         select.setLabel("Category book");
-        List<Kategoria> categorytList = Arrays.asList(Kategoria.values());
-        select.setItems(categorytList);
+     //   List<Kategoria> categorytList = Arrays.asList(Kategoria.values());
+        select.setItems(EnumSet.allOf(Kategoria.class));
 
         authorName=new TextField("Author name", "name");
         authorSurname=new TextField("Author surname", "surname");
@@ -89,7 +85,7 @@ public class AddBookGUI extends VerticalLayout {
         saveBook.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
 
 
-        cancel= new Button("Cancel", click->UI.getCurrent().navigate("all_books"));
+        cancel= new Button("Cancel", click->UI.getCurrent().navigate(""));
         validationInfoLabel=new Label();
 //        foromLayout.add(title, ISBN, select, authorName, authorSurname);
 
@@ -97,18 +93,17 @@ public class AddBookGUI extends VerticalLayout {
     }
 
     private void saveBook() {
-        Book newBook = new Book(title.getValue(), ISBN.getValue(), select.getValue());
+
         Author newAutor= new Author(authorName.getValue(), authorSurname.getValue());
-        boolean isGood=false;
+        Book newBook = new Book(title.getValue(), ISBN.getValue(), select.getValue());
         validationFiels(newBook, newAutor);
             if(validationFiels(newBook, newAutor)==true){
                 newAutor.setBookSet(Collections.singleton(newBook));
 
                 bookRepo.save(newBook);
-
                 authorRepo.save(newAutor);
-
                 saveBook.addClickShortcut(Key.ENTER);
+                showPopupWindow();
                 UI.getCurrent().navigate("addBookView/"+ newBook.getId());
                 //   showPopupWindow();
             }
