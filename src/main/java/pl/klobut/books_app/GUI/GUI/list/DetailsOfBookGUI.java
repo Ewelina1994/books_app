@@ -17,7 +17,7 @@ import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import org.springframework.beans.factory.annotation.Autowired;
 import pl.klobut.books_app.GUI.GUI.MainLayout;
-import pl.klobut.books_app.GUI.controller.BookController;
+import pl.klobut.books_app.GUI.service.BookService;
 import pl.klobut.books_app.GUI.db.BookViewRepo;
 import pl.klobut.books_app.GUI.db.OpinionRepo;
 import pl.klobut.books_app.GUI.entity.BookView;
@@ -47,13 +47,13 @@ public class DetailsOfBookGUI extends VerticalLayout
 
     OpinionRepo opinionRepo;
     BookViewRepo bookViewRepo;
-    BookController bookController;
+    BookService bookService;
 
     @Autowired
-    public DetailsOfBookGUI(OpinionRepo opinionRepo, BookViewRepo bookViewRepo, BookController bookController) {
+    public DetailsOfBookGUI(OpinionRepo opinionRepo, BookViewRepo bookViewRepo, BookService bookService) {
         this.opinionRepo=opinionRepo;
         this.bookViewRepo= bookViewRepo;
-        this.bookController=bookController;
+        this.bookService = bookService;
 
 
     }

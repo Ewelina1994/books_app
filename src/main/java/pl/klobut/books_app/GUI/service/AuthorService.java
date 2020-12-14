@@ -1,6 +1,7 @@
-package pl.klobut.books_app.GUI.controller;
+package pl.klobut.books_app.GUI.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 import pl.klobut.books_app.GUI.DTO.AuthorDTO;
@@ -11,17 +12,16 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@RestController
-public class AuthorController {
+@Service
+public class AuthorService {
 
     AuthorRepo authorRepo;
 
     @Autowired
-    public AuthorController(AuthorRepo authorRepo) {
+    public AuthorService(AuthorRepo authorRepo) {
         this.authorRepo = authorRepo;
     }
 
-    @GetMapping("/getAuthorInfo")
     public List<AuthorDTO> getAuthorByCategory(){
         return authorRepo.getCategoryCount();
     }
@@ -36,6 +36,7 @@ public class AuthorController {
     public Author finBySurname(String surname){
         return authorRepo.finBySurname(surname);
     }
+
     public void saveAuthor(Author author){
         authorRepo.save(author);
     }

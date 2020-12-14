@@ -1,6 +1,7 @@
-package pl.klobut.books_app.GUI.controller;
+package pl.klobut.books_app.GUI.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.*;
 import pl.klobut.books_app.GUI.DTO.BookDTO;
 import pl.klobut.books_app.GUI.db.BookRepo;
@@ -9,17 +10,16 @@ import pl.klobut.books_app.GUI.entity.Book;
 import java.util.List;
 import java.util.Optional;
 
-@RestController("/book/")
-public class BookController {
+@Service
+public class BookService {
     BookRepo bookRepo;
 
     @Autowired
-    public BookController(BookRepo bookRepo) {
+    public BookService(BookRepo bookRepo) {
         this.bookRepo = bookRepo;
     }
 
 
-    @GetMapping("/all")
     public List<BookDTO> getAllBooks(){
         return bookRepo.getAllBook();
     }
@@ -43,6 +43,8 @@ public class BookController {
     public Optional<Book> findById(Long id){
         return bookRepo.findById(id);
     }
+
+
 
 //    @GetMapping
 //    public Optional<Book> getById(@RequestParam Long id) {

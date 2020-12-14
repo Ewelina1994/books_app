@@ -1,10 +1,7 @@
 package pl.klobut.books_app.GUI;
 
 import org.springframework.stereotype.Component;
-import pl.klobut.books_app.GUI.db.AuthorRepo;
-import pl.klobut.books_app.GUI.db.BookRepo;
-import pl.klobut.books_app.GUI.db.BookViewRepo;
-import pl.klobut.books_app.GUI.db.OpinionRepo;
+import pl.klobut.books_app.GUI.db.*;
 import pl.klobut.books_app.GUI.entity.*;
 
 import java.time.LocalDate;
@@ -19,12 +16,14 @@ public class Start {
     private BookRepo bookRepo;
     private BookViewRepo bookViewRepo;
     private OpinionRepo opinionRepo;
+    UserRepo userRepo;
 
-    public Start(AuthorRepo authorRepo, BookRepo bookRepo, BookViewRepo bookViewRepo, OpinionRepo opinionRepo) {
+    public Start(AuthorRepo authorRepo, BookRepo bookRepo, BookViewRepo bookViewRepo, OpinionRepo opinionRepo, UserRepo userRepo) {
         this.authorRepo = authorRepo;
         this.bookRepo = bookRepo;
         this.bookViewRepo=bookViewRepo;
         this.opinionRepo=opinionRepo;
+        this.userRepo=userRepo;
 
         Book book = new Book("Mroczna Wieża", "hdsjfak", Kategoria.FANTASY);
         Book book2 = new Book("Bazar złych snów", "45456", Kategoria.HORRORY);
@@ -72,5 +71,7 @@ public class Start {
         bookViewRepo.save(bookView4);
         bookViewRepo.save(bookView5);
 
+        User user= new User("user", "1234", LocalDate.now());
+        userRepo.save(user);
     }
 }

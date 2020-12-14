@@ -1,5 +1,6 @@
 package pl.klobut.books_app.GUI.GUI.login;
 
+import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.login.LoginForm;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
@@ -14,8 +15,12 @@ import java.util.Collections;
 @PageTitle("Login")
 public class LoginGUI extends VerticalLayout implements BeforeEnterListener{
     LoginForm loginForm= new LoginForm();
+    Button registrationBT;
 
     public LoginGUI() {
+        registrationBT= new Button("Create new account", e ->
+                registrationBT.getUI().ifPresent(ui ->
+                        ui.navigate("registration")));
         addClassName("login-view");
         setSizeFull();
 
@@ -25,7 +30,7 @@ public class LoginGUI extends VerticalLayout implements BeforeEnterListener{
         loginForm.setAction("login");
         add(
                 new H1("Hi my friends!"),
-                loginForm
+                loginForm, registrationBT
         );
     }
 

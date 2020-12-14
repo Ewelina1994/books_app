@@ -1,9 +1,7 @@
 package pl.klobut.books_app.GUI.GUI.list;
 
-import com.helger.commons.callback.exception.CollectingExceptionCallback;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
-import com.vaadin.flow.component.charts.model.Dial;
 import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.grid.HeaderRow;
@@ -11,22 +9,18 @@ import com.vaadin.flow.component.html.H6;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
-import com.vaadin.flow.data.provider.DataChangeEvent;
-import com.vaadin.flow.data.provider.DataProviderListener;
 import com.vaadin.flow.data.provider.ListDataProvider;
 import com.vaadin.flow.data.value.ValueChangeMode;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
-import com.vaadin.flow.shared.Registration;
 import org.apache.commons.lang3.StringUtils;
-import org.hibernate.action.internal.CollectionAction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.EventListener;
 import pl.klobut.books_app.GUI.DTO.BookDTO;
 import pl.klobut.books_app.GUI.GUI.MainLayout;
 import pl.klobut.books_app.GUI.GUI.popupWindow.EditBook;
-import pl.klobut.books_app.GUI.controller.AuthorController;
-import pl.klobut.books_app.GUI.controller.BookController;
+import pl.klobut.books_app.GUI.service.AuthorService;
+import pl.klobut.books_app.GUI.service.BookService;
 import pl.klobut.books_app.GUI.entity.Author;
 import pl.klobut.books_app.GUI.entity.Book;
 
@@ -34,8 +28,8 @@ import pl.klobut.books_app.GUI.entity.Book;
 @PageTitle("Lists of all books")
 public class getAllBook extends VerticalLayout{
 
-    BookController bookController;
-    AuthorController authorController;
+    BookService bookService;
+    AuthorService authorService;
 //    List<BookDTO> getAllBooks= bookRepo.getAllBook(searchBox.getValue());
     Grid<BookDTO> grid= new Grid(Book.class);
     TextField filtrText = new TextField(null, "serch by keywords");
@@ -44,9 +38,9 @@ public class getAllBook extends VerticalLayout{
 
 
     @Autowired
-    public getAllBook(BookController bookController,  AuthorController authorController) {
-        this.bookController = bookController;
-        this.authorController=authorController;
+    public getAllBook(BookService bookService, AuthorService authorService) {
+        this.bookService = bookService;
+        this.authorService = authorService;
        // filtrText.setClearButtonVisible(true);
         grid.setClassName("grid");
         setHeaderInGridAndAddFilters();
@@ -79,7 +73,7 @@ public class getAllBook extends VerticalLayout{
     private void setHeaderInGridAndAddFilters() {
         grid.removeAllColumns();
         dataProvider = new ListDataProvider<>(
-                bookController.getAllBooks());
+                bookService.getAllBooks());
         grid.setDataProvider(dataProvider);
         Grid.Column<BookDTO> titleColumn = grid
                 .addColumn(BookDTO::getTitle).setHeader("Title");
@@ -180,17 +174,17 @@ public class getAllBook extends VerticalLayout{
     }
 
     private void deleteConfirme(BookDTO bookDTO, Dialog dialog) {
-        Book deleteBook=bookController.findByTitle(bookDTO.getTitle());
-        Author deleteAuthor= authorController.finBySurname(bookDTO.getAuthorSurname());
+        Book deleteBook= bookService.findByTitle(bookDTO.getTitle());
+        Author deleteAuthor= authorService.finBySurname(bookDTO.getAuthorSurname());
 
-        bookController.delete(deleteBook);
+        bookService.delete(deleteBook);
         dialog.close();
         updateList();
     }
 
     @EventListener
     private void updateBook(BookDTO item) {
-        editBook=new EditBook(item, bookController, authorController, grid);
+        editBook=new EditBook(item, bookService, authorService, grid);
 
 //        if(editBook.updateBook()){
 //            updateList();
@@ -208,7 +202,7 @@ public class getAllBook extends VerticalLayout{
     }
 
     private void updateList() {
-        grid.setItems(bookController.getAllBooks());
+        grid.setItems(bookService.getAllBooks());
         //dataProvider.refreshAll(); czemu to nie działa
     }
 
